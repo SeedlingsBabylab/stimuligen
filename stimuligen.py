@@ -1,9 +1,13 @@
 from Tkinter import *
 import tkFileDialog
 
+from openpyxl import *
+
 import xlrd
 import csv
 import os
+
+
 
 class MainWindow:
 
@@ -42,20 +46,28 @@ class MainWindow:
                                                       text="Load Pair Carrier Orders",
                                                       command=self.load_pair_carrier_orders)
 
+        self.generate_stimuli_button = Button(self.main_frame,
+                                              text='Generate Stimuli',
+                                              command=self.generate_stimuli)
+
+
         self.video_loaded_label = Label(self.main_frame, text="video loaded", fg="blue")
         self.timestamps_loaded_label = Label(self.main_frame, text="timestamps loaded", fg="red")
 
         self.load_datasource_button.grid(row=1, column=1)
         self.load_eyetracking_order_button.grid(row=1, column=3)
         self.load_pair_carrier_orders_button.grid(row=2, column=2)
+        self.generate_stimuli_button.grid(row=2, column=3)
         self.clear_button.grid(row=3, column=2)
 
     def load_datasource(self):
 
         self.datasource_template_file = tkFileDialog.askopenfilename()
 
-        self.datasource_template_book = xlrd.open_workbook(self.datasource_template_file)
-        self.datasource_template_sheet = self.datasource_template_book.sheet_by_index(0)
+        self.datasource_template_book = load_workbook(self.datasource_template_file)
+
+        self.datasource_template_sheet = self.datasource_template_book.active
+
 
     def load_eyetracking_order(self):
 
@@ -78,8 +90,8 @@ class MainWindow:
 
         self.pair_carrier_orders_file = tkFileDialog.askopenfilename()
 
-        self.pair_carrier_orders_book = xlrd.open_workbook(self.pair_carrier_orders_file)
-        self.pair_carrier_orders_sheet = self.pair_carrier_orders_book.sheet_by_index(0)
+        self.pair_carrier_orders_book = load_workbook(self.pair_carrier_orders_file)
+        self.pair_carrier_orders_sheet = self.pair_carrier_orders_book.active
 
     def clear(self):
 
@@ -99,6 +111,46 @@ class MainWindow:
             self.video_loaded_label.grid_remove()
         if self.timestamps_loaded_label:
             self.timestamps_loaded_label.grid_remove()
+
+    def generate_stimuli(self):
+
+        header = [u'number',
+                  u'word',
+                  u'kind',
+                  u'carrier',
+                  u'duplicate_image_filename',
+                  u'',
+                  u'order',
+                  u'pair',
+                  u'pair_words',
+                  u'pair_kind',
+                  u'carrier']
+
+        # this is wrong
+        header_block = [[u'p1', u'', u'practice', u'can', u'NA', u'', u'',	u'A', u'banana_kitty', u'generic', u'can'],
+                        [u'p2', u'', u'practice', u'where', u'NA', u'', u'', u'B', u'bear_cracker', u'generic', u'do'],
+                        [u'p3', u'', u'practice', u'do', u'NA', u'', u'', u'C', u'cheerios_water', u'generic', u'look'],
+                        [u'p4', u'', u'practice', u'look', u'NA', u'', u'',	u'D', u'hair_cup', u'generic', u'where']]
+
+        for entry in self.eyetracking_orders:
+            if entry[4] == "past":
+                continue
+            else:
+                wb = Workbook()
+                ws = wb.active
+                ws.append(header)           # write header
+                for row in header_block:    # writer header block
+                    ws.append(row)
+                ws['G2'] = entry[2]         # write order
+                wb.save("output/{}_stimuli.xlsx".format(entry[5]))  # export xlsx file
+
+
+        # wb = Workbook()
+        # ws = wb.active
+        # ws.append(header)
+        # ws['G2'] = 3
+        # wb.save("sampleout.xlsx")
+
 
     # def load_template(self):
     #
