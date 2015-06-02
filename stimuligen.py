@@ -190,6 +190,10 @@ class MainWindow:
                 for j in range(4):
                     ws['C{}'.format(2+j)] = "practice"
 
+                # write practice carriers
+                ws['D2'] = "can"; ws['D3'] = "where"
+                ws['D4'] = "do"; ws['D5'] = "look"
+
                 # write "generic" in C6-C13
                 for k in range(8):
                     ws['C{}'.format(6+k)] = 'generic'
@@ -197,6 +201,24 @@ class MainWindow:
                 # write "generic" in J2-J5
                 for l in range(4):
                     ws['J{}'.format(2+l)] = 'generic'
+
+                # write the unique kinds (C14-C21)
+
+                ws['C14'] = "unique_video"
+                ws['C15'] = "unique_video"
+                ws['C16'] = "unique_video"
+                ws['C17'] = "unique_video"
+                ws['C18'] = "unique_audio"
+                ws['C19'] = "unique_audio"
+                ws['C20'] = "unique_audio"
+                ws['C21'] = "unique_audio"
+
+                # write the unique pair_kinds (J6-J9)
+
+                ws['J6'] = "unique_video"
+                ws['J7'] = "unique_video"
+                ws['J8'] = "unique_audio"
+                ws['J9'] = "unique_audio"
 
                 # write the stuff at the bottom
 
@@ -213,8 +235,6 @@ class MainWindow:
                 ws['A35'] = 7; ws['B35'] = "audio"
                 ws['A36'] = 7; ws['B36'] = "audio"
 
-
-
                 if entry[1] == '08':
                     if entry[3] == 'Z':
 
@@ -225,6 +245,10 @@ class MainWindow:
                         # generic Z carriers
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+l)].value
+
+                        # unique Z carrier
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+l)].value
 
                         # generic Z pair_words
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z)].value
@@ -244,7 +268,6 @@ class MainWindow:
                         ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+4)].value
                         ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+6)].value
 
-
                     else:
 
                         # generic Y words
@@ -254,6 +277,10 @@ class MainWindow:
                         # generic Y carriers
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+l)].value
+
+                        # unique Y carriers
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq+l)].value
 
                         # generic Y pair_words
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y)].value
@@ -282,6 +309,9 @@ class MainWindow:
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start10_z+l)].value
 
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start10_z_uniq+l)].value
+
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z+4)].value
@@ -303,6 +333,9 @@ class MainWindow:
 
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start10_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start10_y_uniq+l)].value
 
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start10_y)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start10_y+2)].value
@@ -328,6 +361,9 @@ class MainWindow:
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start12_z+l)].value
 
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start12_z_uniq+l)].value
+
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z+4)].value
@@ -349,6 +385,9 @@ class MainWindow:
 
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start12_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start12_y_uniq+l)].value
 
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start12_y)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start12_y+2)].value
@@ -374,6 +413,9 @@ class MainWindow:
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start14_z+l)].value
 
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start14_z_uniq+l)].value
+
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z+4)].value
@@ -395,6 +437,9 @@ class MainWindow:
 
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start14_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start14_y_uniq+l)].value
 
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start14_y)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start14_y+2)].value
@@ -420,6 +465,9 @@ class MainWindow:
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start16_z+l)].value
 
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start16_z_uniq+l)].value
+
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z+4)].value
@@ -442,6 +490,9 @@ class MainWindow:
 
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start16_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start16_y_uniq+l)].value
 
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start16_y)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start16_y+2)].value
@@ -467,6 +518,9 @@ class MainWindow:
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start18_z+l)].value
 
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start18_z_uniq+l)].value
+
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z+4)].value
@@ -488,6 +542,9 @@ class MainWindow:
 
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start18_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(14+l)] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+l)].value
 
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start18_y)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start18_y+2)].value
