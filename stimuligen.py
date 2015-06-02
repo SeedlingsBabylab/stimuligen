@@ -113,7 +113,12 @@ class MainWindow:
             self.timestamps_loaded_label.grid_remove()
 
     def generate_stimuli(self):
-
+        """
+        This is a really stupid/explicit implementation, just to get
+        it to working condition. Everything is basically hard-coded.
+        Too lazy to think about how to condense it into loops (at least for now)
+        :return:
+        """
         header = [u'number',
                   u'word',
                   u'kind',
@@ -131,6 +136,41 @@ class MainWindow:
                         [u'p2', u'', u'practice', u'where', u'NA', u'', u'', u'B', u'bear_cracker', u'generic', u'do'],
                         [u'p3', u'', u'practice', u'do', u'NA', u'', u'', u'C', u'cheerios_water', u'generic', u'look'],
                         [u'p4', u'', u'practice', u'look', u'NA', u'', u'',	u'D', u'hair_cup', u'generic', u'where']]
+        start8_z = 2
+        start10_z = 10
+        start12_z = 18
+        start14_z = 26
+        start16_z = 34
+        start18_z = 42
+
+        start8_y = 50
+        start10_y = 58
+        start12_y = 66
+        start14_y = 74
+        start16_y = 82
+        start18_y = 90
+
+        start8_z_uniq = 98
+        start10_z_uniq = 106
+        start12_z_uniq = 114
+        start14_z_uniq = 122
+        start16_z_uniq = 130
+        start18_z_uniq = 138
+
+        start8_y_uniq = 146
+        start10_y_uniq = 154
+        start12_y_uniq = 162
+        start14_y_uniq = 170
+        start16_y_uniq = 178
+        start18_y_uniq = 186
+
+        regions8 = [start8_z, start8_y, start8_z_uniq, start8_y_uniq]
+        regions10 = [start10_z, start10_y, start10_z_uniq, start10_y_uniq]
+        regions12 = [start12_z, start12_y, start12_z_uniq, start12_y_uniq]
+        regions14 = [start14_z, start14_y, start14_z_uniq, start14_y_uniq]
+        regions16 = [start16_z, start16_y, start16_z_uniq, start16_y_uniq]
+        regions18 = [start18_z, start18_y, start18_z_uniq, start18_y_uniq]
+
 
         for entry in self.eyetracking_orders:
             if entry[4] == "past":
@@ -139,123 +179,322 @@ class MainWindow:
                 wb = Workbook()
                 ws = wb.active
                 ws.append(header)           # write header
-                for row in header_block:    # writer header block
-                    ws.append(row)
+                ws['H2'] = 'A'              # write pairs
+                ws['H3'] = 'B'
+                ws['H4'] = 'C'
+                ws['H5'] = 'D'
+                ws['H6'] = 'E'
+                ws['H7'] = 'F'
+                ws['H8'] = 'G'
+                ws['H9'] = 'H'
+
+                # write number p1-p4
+                ws['A2'] = 'p1'
+                ws['A3'] = 'p2'
+                ws['A4'] = 'p3'
+                ws['A5'] = 'p4'
+
+                # write number 1-16
+                for i in range(1, 17):
+                    ws['A{}'.format(6+(i-1))] = i
+
+                # write "practice" in C2-C5
+                for j in range(4):
+                    ws['C{}'.format(2+j)] = "practice"
+                # write "generic" in C6-C13
+                for k in range(8):
+                    ws['C{}'.format(6+k)] = 'generic'
+
+                if entry[1] == '08':
+                    if entry[3] == 'Z':
+
+                        # write generic Z words
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start8_z+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+l)].value
+                        # write generic Z pair_words
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z+6)].value
+
+                        # write generic Z pair carriers
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+6)].value
+
+                        # write unique Z pair carriers
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+6)].value
+
+
+                    else:
+
+                        # write generic Y words
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start8_y+l)].value
+
+                        # write generic Y carriers
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+l)].value
+
+                        # write generic Y pair_words
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y+6)].value
+
+                        # write generic Y pair carriers
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+6)].value
+
+                        # write unique Y pair carriers
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq+6)].value
+
+                if entry[1] == '10':
+                    if entry[3] == 'Z':
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start10_z+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start10_z+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start10_z+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start10_z_uniq+6)].value
+                    else:
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start10_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start10_y+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start10_y)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start10_y+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start10_y+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start10_y+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start10_y_uniq+6)].value
+
+                if entry[1] == '12':
+                    if entry[3] == 'Z':
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start12_z+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start12_z+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start12_z+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start12_z_uniq+6)].value
+                    else:
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start12_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start12_y+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start12_y)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start12_y+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start12_y+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start12_y+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start12_y_uniq+6)].value
+
+                if entry[1] == '14':
+                    if entry[3] == 'Z':
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start14_z+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start14_z+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start14_z+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start14_z_uniq+6)].value
+                    else:
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start14_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start14_y+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start14_y)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start14_y+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start14_y+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start14_y+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start14_y_uniq+6)].value
+
+                if entry[1] == '16':
+                    if entry[3] == 'Z':
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start16_z+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start16_z+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start16_z+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start16_z_uniq+6)].value
+
+                    else:
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start16_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start16_y+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start16_y)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start16_y+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start16_y+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start16_y+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start16_y_uniq+6)].value
+
+                if entry[1] == '18':
+                    if entry[3] == 'Z':
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start18_z+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start18_z+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start18_z+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start18_z_uniq+6)].value
+                    else:
+
+                        for l in range(8):
+                            ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start18_y+l)].value
+
+                        for l in range(8):
+                            ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start18_y+l)].value
+
+                        ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start18_y)].value
+                        ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start18_y+2)].value
+                        ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start18_y+4)].value
+                        ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start18_y+6)].value
+
+                        ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y)].value
+                        ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y+2)].value
+                        ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y+4)].value
+                        ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y+6)].value
+
+                        ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq)].value
+                        ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+2)].value
+                        ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+4)].value
+                        ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+6)].value
+
+
                 ws['G2'] = entry[2]         # write order
                 wb.save("output/{}_stimuli.xlsx".format(entry[5]))  # export xlsx file
-
-
-        # wb = Workbook()
-        # ws = wb.active
-        # ws.append(header)
-        # ws['G2'] = 3
-        # wb.save("sampleout.xlsx")
-
-
-    # def load_template(self):
-    #
-    #     self.template_file = tkFileDialog.askopenfilename()
-    #
-    #     self.template_book = xlrd.open_workbook(self.template_file)
-    #     self.template_sheet = self.template_book.sheet_by_index(0)
-    #
-    #     self.template_loaded_label.grid(row=3, column=1)
-    #
-    # def load_stimuli(self):
-    #
-    #     self.stimuli_file = tkFileDialog.askopenfilename()
-    #
-    #     self.stimuli_book = xlrd.open_workbook(self.stimuli_file)
-    #     self.stimuli_sheet = self.stimuli_book.sheet_by_index(0)
-    #
-    #     self.stimuli_loaded_label.grid(row=3, column=2)
-    #
-    # def run(self):
-    #
-    #
-    #
-    #     #0) keep the header row, ...
-    #     hdr = []
-    #     for c in range(13):
-    #         hdr.append(self.template_sheet.cell_value(0, c))
-    #     self.data.append(hdr)
-    #     print hdr
-    #     #get column G's value
-    #     order = self.stimuli_sheet.cell_value(1, 6)
-    #
-    #     #find the first row corresponding to the G subset
-    #     row = 1
-    #     while True:
-    #         if self.template_sheet.cell_value(row, 12) == order:
-    #             break
-    #         row += 1
-    #
-    #     #0) ..., and then take the subset of the template that is the order corresponding to column G's value (1-4)
-    #     while self.template_sheet.cell_value(row, 12) == order:
-    #         #print "row: " + str(row) + "  template value: " + str(template_sheet.cell_value(row, 12)) + "  order: " + str(order)
-    #         row_data = []
-    #         for col in range(13):
-    #             val = self.template_sheet.cell_value(row, col)
-    #             if self.template_sheet.cell_type(row, col) == 2:
-    #                 row_data.append(int(val))
-    #             else:
-    #                 row_data.append(val)
-    #         self.data.append(row_data)
-    #         #print "_dimnrows: " + str(template_sheet._dimnrows)
-    #
-    #         if row >= self.template_sheet._dimnrows - 1:
-    #             break
-    #         else:
-    #             row += 1
-    #
-    #     #1) Use the 20 rows (after the header row) in columns A and B to write into columns B through D of the spreadsheet
-    #     #3) replace 1-16 in the .wav and .jpg with the words numbered 1-16 (e.g. 1.jpg becomes banana.jpg and can_banana.jpg)
-    #     #4) IF there is something in column e that is not NA, replace with that instead of with the word in column B (e.g. sock3 instead of sock) ONLY in columns B&C not in column D
-    #     for r in range(5, len(self.data)):
-    #         index = int(self.data[r][1].split('.')[0])
-    #         col_e = self.stimuli_sheet.cell_value(index + 4, 4)
-    #         if col_e == "NA":
-    #             self.data[r][1] = self.stimuli_sheet.cell_value(index + 4, 1) + ".jpg"
-    #         else:
-    #             self.data[r][1] = self.stimuli_sheet.cell_value(index + 4, 4) + ".jpg"
-    #
-    #         index = int(self.data[r][2].split('.')[0])
-    #         col_e = self.stimuli_sheet.cell_value(index + 4, 4)
-    #         if col_e == "NA":
-    #             self.data[r][2] = self.stimuli_sheet.cell_value(index + 4, 1) + ".jpg"
-    #         else:
-    #             self.data[r][2] = self.stimuli_sheet.cell_value(index + 4, 4) + ".jpg"
-    #
-    #         prefix = self.data[r][3].split('.')[0].split('_')[0]
-    #         index = int(self.data[r][3].split('.')[0].split('_')[1])
-    #         self.data[r][3] = "%s_%s.wav" % (prefix, self.stimuli_sheet.cell_value(index + 4, 1))
-    #
-    #     #5) replace A:H in column F with the pairs corresponding to A:H in column I of the stimuli spreadsheet
-    #         self.data[r][5] = self.stimuli_sheet.cell_value(ord(self.data[r][5]) - ord('A') + 1, 8)
-    #
-    #
-    #     #2) replace practice1.jpg-practice4.jpg with the first four words of 'stimuli' labeled p1-p4
-    #     for r in range(1, 5):
-    #         word = self.stimuli_sheet.cell_value(r, 1)
-    #         self.data[r][1] = self.data[r][1].replace("practice%d" % r, word)
-    #         self.data[r][3] = self.data[r][3].replace("practice%d" % r, word)
-    #
-    #
-    #
-    # def export(self):
-    #
-    #     self.run()
-    #
-    #     self.export_file = tkFileDialog.asksaveasfilename()
-    #
-    #     with open(self.export_file, 'w') as file:
-    #
-    #         csvwriter = csv.writer(file, delimiter='\t')
-    #
-    #         csvwriter.writerow(self.data[0])     # write the header row
-    #
-    #         for row in self.data[1:]:    # write each subsequent row (skipping the header)
-    #             csvwriter.writerow(row)
 
 if __name__ == "__main__":
 
