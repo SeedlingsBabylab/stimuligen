@@ -114,10 +114,11 @@ class MainWindow:
 
     def generate_stimuli(self):
         """
-        This is a really stupid/explicit implementation, just to get
+
+        This is a really stupid and explicit implementation, written just to get
         it to working condition. Everything is basically hard-coded.
         Too lazy to think about how to condense it into loops (at least for now)
-        :return:
+
         """
         header = [u'number',
                   u'word',
@@ -131,11 +132,6 @@ class MainWindow:
                   u'pair_kind',
                   u'carrier']
 
-        # this is wrong
-        header_block = [[u'p1', u'', u'practice', u'can', u'NA', u'', u'',	u'A', u'banana_kitty', u'generic', u'can'],
-                        [u'p2', u'', u'practice', u'where', u'NA', u'', u'', u'B', u'bear_cracker', u'generic', u'do'],
-                        [u'p3', u'', u'practice', u'do', u'NA', u'', u'', u'C', u'cheerios_water', u'generic', u'look'],
-                        [u'p4', u'', u'practice', u'look', u'NA', u'', u'',	u'D', u'hair_cup', u'generic', u'where']]
         start8_z = 2
         start10_z = 10
         start12_z = 18
@@ -163,14 +159,6 @@ class MainWindow:
         start14_y_uniq = 170
         start16_y_uniq = 178
         start18_y_uniq = 186
-
-        regions8 = [start8_z, start8_y, start8_z_uniq, start8_y_uniq]
-        regions10 = [start10_z, start10_y, start10_z_uniq, start10_y_uniq]
-        regions12 = [start12_z, start12_y, start12_z_uniq, start12_y_uniq]
-        regions14 = [start14_z, start14_y, start14_z_uniq, start14_y_uniq]
-        regions16 = [start16_z, start16_y, start16_z_uniq, start16_y_uniq]
-        regions18 = [start18_z, start18_y, start18_z_uniq, start18_y_uniq]
-
 
         for entry in self.eyetracking_orders:
             if entry[4] == "past":
@@ -201,32 +189,56 @@ class MainWindow:
                 # write "practice" in C2-C5
                 for j in range(4):
                     ws['C{}'.format(2+j)] = "practice"
+
                 # write "generic" in C6-C13
                 for k in range(8):
                     ws['C{}'.format(6+k)] = 'generic'
 
+                # write "generic" in J2-J5
+                for l in range(4):
+                    ws['J{}'.format(2+l)] = 'generic'
+
+                # write the stuff at the bottom
+
+                ws['A27'] = "stim details"
+                ws['A28'] = "month"; ws['B28'] = "word_type"; ws['C28'] = "need_audio"
+                ws['D28'] = "need_image"; ws['E28'] = "word"; ws['F28'] = "count"; ws['G28'] = "find images"
+
+                ws['A29'] = 6; ws['B29'] = "video"
+                ws['A30'] = 6; ws['B30'] = "video"
+                ws['A31'] = 7; ws['B31'] = "video"
+                ws['A32'] = 7; ws['B32'] = "video"
+                ws['A33'] = 6; ws['B33'] = "audio"
+                ws['A34'] = 6; ws['B34'] = "audio"
+                ws['A35'] = 7; ws['B35'] = "audio"
+                ws['A36'] = 7; ws['B36'] = "audio"
+
+
+
                 if entry[1] == '08':
                     if entry[3] == 'Z':
 
-                        # write generic Z words
+                        # generic Z words
                         for l in range(8):
                             ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start8_z+l)].value
 
+                        # generic Z carriers
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+l)].value
-                        # write generic Z pair_words
+
+                        # generic Z pair_words
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z+4)].value
                         ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start8_z+6)].value
 
-                        # write generic Z pair carriers
+                        # generic Z pair carriers
                         ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z)].value
                         ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+2)].value
                         ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+4)].value
                         ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z+6)].value
 
-                        # write unique Z pair carriers
+                        # unique Z pair carriers
                         ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq)].value
                         ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+2)].value
                         ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start8_z_uniq+4)].value
@@ -235,27 +247,27 @@ class MainWindow:
 
                     else:
 
-                        # write generic Y words
+                        # generic Y words
                         for l in range(8):
                             ws['B{}'.format(6+l)] = self.pair_carrier_orders_sheet['A{}'.format(start8_y+l)].value
 
-                        # write generic Y carriers
+                        # generic Y carriers
                         for l in range(8):
                             ws['D{}'.format(6+l)] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+l)].value
 
-                        # write generic Y pair_words
+                        # generic Y pair_words
                         ws['I2'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y)].value
                         ws['I3'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y+2)].value
                         ws['I4'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y+4)].value
                         ws['I5'] = self.pair_carrier_orders_sheet['C{}'.format(start8_y+6)].value
 
-                        # write generic Y pair carriers
+                        # generic Y pair carriers
                         ws['K2'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y)].value
                         ws['K3'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+2)].value
                         ws['K4'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+4)].value
                         ws['K5'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y+6)].value
 
-                        # write unique Y pair carriers
+                        # unique Y pair carriers
                         ws['K6'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq)].value
                         ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq+2)].value
                         ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start8_y_uniq+4)].value
@@ -491,7 +503,6 @@ class MainWindow:
                         ws['K7'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+2)].value
                         ws['K8'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+4)].value
                         ws['K9'] = self.pair_carrier_orders_sheet['G{}'.format(start18_y_uniq+6)].value
-
 
                 ws['G2'] = entry[2]         # write order
                 wb.save("output/{}_stimuli.xlsx".format(entry[5]))  # export xlsx file
