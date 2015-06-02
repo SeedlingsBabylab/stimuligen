@@ -235,6 +235,9 @@ class MainWindow:
                 ws['A35'] = 7; ws['B35'] = "audio"
                 ws['A36'] = 7; ws['B36'] = "audio"
 
+                for i in range(2, 22):
+                    ws['E{}'.format(i)] = "NA"
+
                 if entry[1] == '08':
                     if entry[3] == 'Z':
 
